@@ -35,7 +35,7 @@
                 <v-btn text @click="currentQuestion += 1" :disabled="currentQuestion === 39">Câu sau</v-btn>
               </v-card-actions>
             </v-card>
-            <v-card class="mt-2">
+            <v-card class="mt-5">
               <v-card-title>Đáp án</v-card-title>
               <v-card-text>
                 <v-textarea outlined placeholder="ABCDCBA..." v-model="keys"></v-textarea>
@@ -44,7 +44,7 @@
           </v-col>
           <v-col>
             <v-card class="mx-auto">
-              <v-card-title>Danh sách</v-card-title>
+              <v-card-title>Danh sách các câu hỏi</v-card-title>
               <v-card-text>
                 <v-row width="auto">
                   <v-col v-for="question in totalQuestions" :key="question" cols="auto">
