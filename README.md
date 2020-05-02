@@ -1,24 +1,10 @@
-# testimer
+# Test Timer
 
-## Project setup
-```
-npm install
-```
+A test-taking timer, with a built-in key checker. Made by a Vietnamese who is struggling with his university entrance exam.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## To do list
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- [ ] Use Vuex.
+- [ ] Make the test-taking time and number of questions modifiable.
+- [ ] Make a confirmation on resetting.
+- [ ] Create a history mode?
