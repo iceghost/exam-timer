@@ -40,14 +40,14 @@
               <v-card-actions>
                 <v-btn
                   text
-                  @click="currentQuestion -= 1"
+                  @click="updateQuestion(currentQuestion - 1)"
                   :disabled="currentQuestion === 0"
                   >Câu trước</v-btn
                 >
                 <v-spacer />
                 <v-btn
                   text
-                  @click="currentQuestion += 1"
+                  @click="updateQuestion(currentQuestion + 1)"
                   :disabled="currentQuestion === 39"
                   >Câu sau</v-btn
                 >
@@ -87,7 +87,7 @@
                           ? 'error'
                           : 'success'
                       "
-                      @click="currentQuestion = question - 1"
+                      @click="updateQuestion(question - 1)"
                     >
                       {{
                         answers[question - 1].answer === undefined
@@ -121,6 +121,8 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
+
 export default {
   name: 'App',
 
@@ -128,40 +130,38 @@ export default {
 
   data() {
     return {
-      secondElapsed: 0,
-      secondLimit: 60 * 50,
-      totalQuestions: 40,
       paused: true,
-      answers: this.emptyAnswers(40),
-      currentQuestion: 0,
       timer: null,
       keys: '',
     };
   },
   computed: {
     timeLeft() {
-      return this.secondLimit - this.secondElapsed;
+      return this.totalSeconds - this.elapsedSeconds;
     },
+    ...mapState([
+      'answers',
+      'currentQuestion',
+      'totalQuestions',
+      'elapsedSeconds',
+      'totalSeconds',
+    ]),
   },
 
   methods: {
-    emptyAnswers(numOfQuestions) {
-      return Array(numOfQuestions)
-        .fill(null)
-        .map((_, i) => ({
-          index: i,
-          answer: null,
-          time: 0,
-          key: null,
-        }));
-    },
+    ...mapActions([
+      'updateTimer',
+      'updateQuestion',
+      'updateAnswer',
+      'updateKey',
+      'saveLocal',
+      'getLocal',
+      'createNewTest',
+    ]),
 
     tick() {
       if (this.timeLeft <= 0) this.paused = true;
-      if (!this.paused) {
-        this.secondElapsed += 1;
-        this.answers[this.currentQuestion].time += 1;
-      }
+      if (!this.paused) this.updateTimer();
     },
 
     toReadableTime(time) {
@@ -169,34 +169,21 @@ export default {
     },
 
     reset() {
-      this.secondElapsed = 0;
-      this.answers = this.emptyAnswers(this.totalQuestions);
-      this.currentQuestion = 0;
+      this.createNewTest({ totalQ: 40, totalT: 50 * 60 });
     },
 
     compareKeys() {
       this.paused = true;
-      [...this.keys.padEnd(this.totalQuestions)].forEach(
-        (key, index) => {
-          this.answers[index].key = key;
-        },
-      );
+      this.updateKey(this.keys);
     },
   },
 
   mounted() {
     this.timer = setInterval(this.tick, 1000);
-    let _sec = localStorage.getItem('secondElapsed');
-    let _ans = localStorage.getItem('answers');
-    let _cur = localStorage.getItem('currentQuestion');
-    if (_sec !== null) this.secondElapsed = parseInt(_sec);
-    if (_ans !== null) this.answers = JSON.parse(_ans);
-    if (_cur !== null) this.currentQuestion = parseInt(_cur);
+    this.getLocal();
     addEventListener('beforeunload', () => {
       clearInterval(this.timer);
-      localStorage.setItem('secondElapsed', this.secondElapsed);
-      localStorage.setItem('answers', JSON.stringify(this.answers));
-      localStorage.setItem('currentQuestion', this.currentQuestion);
+      this.saveLocal();
     });
   },
 };
