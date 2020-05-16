@@ -7,26 +7,14 @@
         Hôm nay <br />
         bạn định làm đề thi môn gì?
       </p>
-      <div
-        class="flex items-center justify-center h-24 w-64
-        bg-white
-        mx-auto mt-8
-        rounded-lg shadow-lg"
-      >
-        <img class="h-16 w-16" src="math.png" />
-        <div class="ml-4">
-          <p class="text-4xl text-blue-700">Toán</p>
-          <p
-            class="text-sm uppercase tracking-wide text-blue-500 -mt-2"
-          >
-            50 câu, 90 phút
-          </p>
-        </div>
-      </div>
+      <Picker />
       <div class="self-center flex justify-center">
-        <button class="mt-8 border border-white w-28 p-2">
+        <router-link
+          :to="{ name: 'AnswerSheet' }"
+          class="mt-8 border border-white w-28 p-2"
+        >
           <span class="text-2xl font-thin">bắt đầu làm bài</span>
-        </button>
+        </router-link>
       </div>
       <div class="text-center mt-8">
         <span class="text-lg italic">hoặc xem lại đề đã làm</span>
@@ -36,8 +24,12 @@
 </template>
 
 <script>
+import Picker from '../components/Picker';
+
 export default {
   name: 'Home',
-  components: {},
+  components: {
+    Picker,
+  },
 };
 </script>
