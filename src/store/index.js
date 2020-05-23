@@ -69,11 +69,14 @@ export default new Vuex.Store({
     updateTimer({ commit }) {
       commit('UPDATE_TIMER');
     },
-    updateQuestion({ commit }, question) {
+    updateQuestion({ state, commit }, question) {
+      if (question < 0 || question >= state.totalQuestions) return;
       commit('UPDATE_QUESTION', question);
     },
-    updateAnswer({ commit }, answer) {
-      commit('UPDATE_ANSWER', answer);
+    updateAnswer({ state, commit }, answer) {
+      if (state.answers[state.currentQuestion].answer == answer)
+        commit('UPDATE_ANSWER', null);
+      else commit('UPDATE_ANSWER', answer);
     },
     updateKey({ commit }, keys) {
       commit('UPDATE_KEY', keys);
