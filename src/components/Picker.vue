@@ -56,6 +56,7 @@ export default {
       this.index =
         this.index == this.subjects.length - 1 ? 0 : this.index + 1;
       this.subject = this.subjects[this.index];
+      this.$emit('update:subject', this.subject);
     },
   },
   created() {

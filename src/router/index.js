@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
+import List from '../views/List.vue';
+import Login from '../views/Login.vue'
 import AnswerSheet from '../views/AnswerSheet.vue';
 
 Vue.use(VueRouter);
@@ -12,9 +14,19 @@ const routes = [
     component: Home,
   },
   {
-    path: '/answer',
-    name: 'AnswerSheet',
+    path: '/list',
+    name: 'List',
+    component: List,
+  },
+  {
+    path: '/document/:docid',
+    name: 'Document',
     component: AnswerSheet,
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
   },
   {
     path: '/about',
