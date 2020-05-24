@@ -52,13 +52,13 @@
         />
       </div>
       <div v-if="answers" class="center mt-5 text-4xl text-blue-500">
-        <button class="px-3">
+        <button class="px-3" @click="currentQuestion -= 1">
           &#9001;
         </button>
         <span class="border-2 border-blue-500 rounded-full p-3">{{
           currentQuestion + 1
         }}</span>
-        <button class="px-3">
+        <button class="px-3" @click="currentQuestion += 1">
           &#9002;
         </button>
       </div>
@@ -71,7 +71,9 @@
           :class="
             currentQuestion == i - 1
               ? 'bg-blue-900 text-white font-bold border-none'
-              : 'bg-white text-blue-900 font-light border-blue-200'
+              : answers[i - 1].answer == null
+              ? 'bg-white text-blue-900 font-light border-blue-200'
+              : 'bg-blue-500 text-white font-light border-none'
           "
           :key="i"
           @click="currentQuestion = i - 1"
